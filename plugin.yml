@@ -1,0 +1,9 @@
+name: TheCrappiest-GrapplingHook
+main: com.thecrappiest.grappling.GrapplingHook
+version: 0.0.1
+api-version: 1.16
+commands:
+  grappling:
+    description: Default command for grappling hooks.
+    usage: /<command>
+    aliases: [gh, graphook, grapplinghook]

@@ -1,0 +1,48 @@
+Help:
+  - '&7Grappling hooks can be used to get around easier.'
+  - '&7Right click while holding the hook and watch it fly.'
+  - '&7The hook does not have to be on a block to throw you'
+  - '&7towards its direction.'
+
+No-Permission: '&cYou do not have access to this.'
+
+Permissions:
+  Give: 'grapplinghook.give'
+  Reload: 'grapplinghook.reload'
+  Use: 'grapplinghook.use'
+  Help: 'grapplinghook.help'
+  Bypass-Cooldown: 'grapplinghook.cooldown.bypass'
+  
+Force-Give:
+  Enabled: false
+  Slot: 4
+  Uses: -1
+  Dropable: false
+  Delay: 5
+
+Momentum:
+  Adaptable: true
+  Multiplier: 0.6
+  Forward: 2
+  Upwards: 1.5
+
+Teleport-To: false
+
+Attach-Block: false
+
+Break-Hook: true
+
+Cooldown:
+  Ticks: 30
+  Message: '&eYour grappling hook is cooling down.'
+
+Hook:
+  Name: '&6&l[| &eGrappling Hook &6&l|]'
+  Lore:
+    - ''
+    - '&7Right click to use.'
+    - ''
+    - '&bUses Left: &7%uses%'
+    - ''
+  Unlimited-String: 'Unlimited'
+  Hide-Unbreakable: true
