@@ -20,6 +20,7 @@ public class GrapplingCommands implements CommandExecutor {
 					if (args[0].equalsIgnoreCase("reload")) {
 						if (sender.hasPermission(config.getString("Permissions.Reload"))) {
 							gh.reloadConfig();
+							gh.setSounds();
 							sender.sendMessage(gh.color("&aReloaded grapplinghook config."));
 						} else {
 							sender.sendMessage(gh.color(config.getString("No-Permission")));

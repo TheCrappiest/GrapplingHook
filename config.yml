@@ -26,11 +26,19 @@ Momentum:
   Forward: 2
   Upwards: 1.5
 
+Usage-Sounds:
+  Throw: 'ENTITY_FISHING_BOBBER_THROW'
+  Reel: 'ENTITY_FISHING_BOBBER_RETRIEVE'
+  Cooldown: 'ENTITY_VILLAGER_HURT'
+  No-Permission: 'BLOCK_ANVIL_HIT'
+
 Teleport-To: false
 
 Attach-Block: false
 
 Break-Hook: true
+
+Use-WorldGuard: false
 
 Cooldown:
   Ticks: 30

@@ -52,26 +52,56 @@ public class GrapplingListener implements Listener {
 		boolean onCooldown = gh.cooldownTimes.containsKey(id);
 		boolean isHook = nbt.containsNBTUses(rod);
 		boolean bypassCooldown = player.hasPermission(config.getString("Permissions.Bypass-Cooldown"));
-
+		boolean useWorldGuard = config.getBoolean("Use-WorldGuard");
+		
+		if(useWorldGuard && isHook) {
+			if(Bukkit.getPluginManager().isPluginEnabled("WorldGuard")) {
+				if(!gh.canUserGrapple(player, loc)) {
+					event.setCancelled(true);
+					return;
+				}
+			}
+		}
+		
+		if (!player.hasPermission(config.getString("Permissions.Use")) && isHook) {
+			event.setCancelled(true);
+			player.sendMessage(gh.color(config.getString("No-Permission")));
+			if(gh.nopermSound != null)
+			    player.playSound(player.getLocation(), gh.nopermSound, 1, 1);
+			return;
+		}
+		
+		String cooldownMessage = config.getString("Cooldown.Message");
+		int ticks = gh.cooldownTimes.containsKey(id) ? gh.cooldownTimes.get(id) : config.getInt("Cooldown.Ticks");
+		cooldownMessage = cooldownMessage.replace("%seconds%", String.valueOf(ticks/20));
+		cooldownMessage = cooldownMessage.replace("%ticks%", String.valueOf(ticks));
+		
+		if(onCooldown && isHook) {
+			if(gh.cooldownSound != null)
+			    player.playSound(player.getLocation(), gh.cooldownSound, 1, 1);
+		}
+		
 		if (state == State.FISHING) {
 			if (onCooldown && isHook && !bypassCooldown) {
 				event.setCancelled(true);
-				player.sendMessage(gh.color(config.getString("Cooldown.Message")));
+				player.sendMessage(gh.color(cooldownMessage));
 			}
 			return;
+		}else if (onCooldown && isHook && !bypassCooldown) {
+			event.setCancelled(true);
+			player.sendMessage(gh.color(cooldownMessage));
+			event.getHook().remove();
+			return;
 		}
-
+		
 		if (!isHook) return;
 		if (state == State.CAUGHT_FISH) event.getCaught().remove();
 		if (config.getInt("Cooldown.Ticks") >= 0 && !bypassCooldown) gh.cooldownTimes.put(id, config.getInt("Cooldown.Ticks"));
 		if (gh.cooldownTask == null) gh.startTask();
 
-		if (!player.hasPermission(config.getString("Permissions.Use"))) {
-			event.setCancelled(true);
-			player.sendMessage(gh.color(config.getString("No-Permission")));
-			return;
-		}
-
+		if(gh.throwSound != null)
+		    player.playSound(player.getLocation(), gh.throwSound, 1, 1);
+		
 		int uses = nbt.getNBTUses(rod);
 		if (uses == 1) {
 			if (config.getBoolean("Break-Hook")) {
@@ -114,6 +144,9 @@ public class GrapplingListener implements Listener {
 				inv.setItemInOffHand(rod);
 			}
 		}
+		
+		if(gh.reelSound != null)
+		    player.playSound(player.getLocation(), gh.reelSound, 1, 1);
 
 		if (config.getBoolean("Teleport-To")) {
 			Block hookBlock = hookLoc.getBlock();
